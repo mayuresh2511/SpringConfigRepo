@@ -21,6 +21,14 @@ spring:
           args:
             preFilter: true
             postFilter: false
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:5173"
+            allowedHeaders: "*"
+            allowedMethods:
+            - GET
+            - POST
         
 
 eureka:
