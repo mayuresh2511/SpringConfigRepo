@@ -1,0 +1,41 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: post-service
+        uri: lb://POST-SERVICE
+        predicates:
+          - Path=/post/**
+        filters:
+        - name: AuthorizationGatewayFilter
+          args:
+            preFilter: true
+            postFilter: false
+
+      - id: user-service
+        uri: lb://USER-SERVICE
+        predicates:
+          - Path=/user/**
+        filters:
+        - name: AuthorizationGatewayFilter
+          args:
+            preFilter: true
+            postFilter: false
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+            - GET
+            - POST
+        
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_DEFAULTZONE}
+  instance:
+    hostname: localhost
