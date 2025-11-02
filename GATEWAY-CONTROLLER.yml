@@ -40,8 +40,7 @@ eureka:
   instance:
     hostname: localhost
 
-jwt:
-  secret: ${JWT_SECRET_KEY}
-
 security:
-  hash-secret: ${HASH_SECRET}
+   secret:
+      hash: ${HASH_SECRET}
+      jwt: ${JWT_SECRET_KEY}
