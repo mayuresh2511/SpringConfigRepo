@@ -39,3 +39,9 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     hostname: localhost
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
+
+security:
+  hash-secret: ${HASH_SECRET}

@@ -38,6 +38,12 @@ aws:
    snsArn: ${AWS_SNS_ARN}
    s3Bucket: ${AWS_S3_BUCKET}
 
+jwt:
+  secret: ${JWT_SECRET_KEY}
+
+security:
+  hash-secret: ${HASH_SECRET}
+  
 user:
    service:
       testEnvVariable: ${JAVA_HOME}
