@@ -4,6 +4,10 @@ spring:
    data:
       mongodb:
          uri: ${MONGO_URI}
+   redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      timeout: 2000ms
 
 #Eureka Configurations
 eureka:
@@ -52,6 +56,8 @@ security:
 rate-limiter:
    enabled: true
    tokenBucket:
+      enabled: false
+   slidingWindowRedis:
       enabled: true
 
 user:
