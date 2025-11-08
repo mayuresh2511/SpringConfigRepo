@@ -48,7 +48,12 @@ security:
          enabled: true
       gateway-auth:
          enabled: true
-  
+
+rate-limiter:
+   enabled: true
+   tokenBucket:
+      enabled: true
+
 user:
    service:
       testEnvVariable: ${JAVA_HOME}
