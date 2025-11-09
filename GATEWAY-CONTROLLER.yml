@@ -1,34 +1,61 @@
 spring:
   cloud:
     gateway:
-      routes:
-      - id: post-service
-        uri: lb://POST-SERVICE
-        predicates:
-          - Path=/post/**
-        filters:
-        - name: AuthorizationGatewayFilter
-          args:
-            preFilter: true
-            postFilter: false
-
-      - id: user-service
-        uri: lb://USER-SERVICE
-        predicates:
-          - Path=/user/**
-        filters:
-        - name: AuthorizationGatewayFilter
-          args:
-            preFilter: true
-            postFilter: false
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:5173"
-            allowedHeaders: "*"
-            allowedMethods:
-            - GET
-            - POST
+      server:
+        webflux:
+          routes:
+          - id: post-service
+            uri: lb://POST-SERVICE
+            predicates:
+              - Path=/post/**
+            filters:
+            - name: AuthorizationGatewayFilter
+              args:
+                preFilter: true
+                postFilter: false
+            - name: Retry
+              args:
+                retries: 3
+                statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                methods: GET
+                backoff:
+                  firstBackoff: 50ms
+                  maxBackoff: 500ms
+            - name: CircuitBreaker
+              args:
+                name: postServiceCircuitBreaker
+                routeId: post-service
+                fallbackUri: forward:/fallback/post-service
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user/**
+            filters:
+            - name: AuthorizationGatewayFilter
+              args:
+                preFilter: true
+                postFilter: false
+            - name: Retry
+              args:
+                retries: 3
+                statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                methods: GET
+                backoff:
+                  firstBackoff: 50ms
+                  maxBackoff: 500ms
+            - name: CircuitBreaker
+              args:
+                name: userServiceCircuitBreaker
+                routeId: user-service
+                fallbackUri: forward:/fallback/user-service
+          globalcors:
+            corsConfigurations:
+              '[/**]':
+                allowedOrigins: "http://localhost:5173"
+                allowedHeaders: "*"
+                allowedMethods:
+                - GET
+                - POST
         
 
 eureka:
