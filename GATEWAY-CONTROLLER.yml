@@ -13,19 +13,6 @@ spring:
               args:
                 preFilter: true
                 postFilter: false
-            - name: Retry
-              args:
-                retries: 3
-                statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
-                methods: GET
-                backoff:
-                  firstBackoff: 50ms
-                  maxBackoff: 500ms
-            - name: CircuitBreaker
-              args:
-                name: postServiceCircuitBreaker
-                routeId: post-service
-                fallbackUri: forward:/fallback/post-service
           - id: user-service
             uri: lb://USER-SERVICE
             predicates:
@@ -35,19 +22,6 @@ spring:
               args:
                 preFilter: true
                 postFilter: false
-            - name: Retry
-              args:
-                retries: 3
-                statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
-                methods: GET
-                backoff:
-                  firstBackoff: 50ms
-                  maxBackoff: 500ms
-            - name: CircuitBreaker
-              args:
-                name: userServiceCircuitBreaker
-                routeId: user-service
-                fallbackUri: forward:/fallback/user-service
           globalcors:
             corsConfigurations:
               '[/**]':
