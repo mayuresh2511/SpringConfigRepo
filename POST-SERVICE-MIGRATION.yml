@@ -1,0 +1,64 @@
+
+spring:
+   #Mongo DB configurations
+   mongodb:
+      uri: ${MONGO_URI}
+   data:
+      redis:
+         url: ${REDIS_URI}
+         timeout: 2000ms
+
+#Eureka Configurations
+eureka:
+   client:
+      register-with-eureka: true
+      fetch-registry: true
+      serviceUrl:
+         defaultZone: ${EUREKA_DEFAULTZONE}
+   instance:
+      hostname: localhost
+
+#Actuator and prometheus configuration
+management:
+   endpoints:
+      prometheus:
+         enabled: true
+      web:
+         exposure:
+            include:
+               - info
+               - health
+               - metrics
+   metrics:
+      tags:
+         application: POST-SERVICE
+
+#AWS Configuration
+aws:
+   credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+      region: ${AWS_REGION}
+   s3:
+      bucket-name: ${AWS_S3_BUCKET}
+      enabled: true
+
+security:
+   secret:
+      hash: ${HASH_SECRET}
+   filters:
+      hash-check:
+         enabled: true
+      gateway-auth:
+         enabled: true
+
+rate-limiter:
+   enabled: true
+   tokenBucket:
+      enabled: false
+   slidingWindowRedis:
+      enabled: true
+
+user:
+   service:
+      testEnvVariable: ${JAVA_HOME}
