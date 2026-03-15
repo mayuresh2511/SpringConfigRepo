@@ -1,11 +1,5 @@
 
 spring:
-  #Rabbit MQ configurations
-   rabbitmq:
-      host: localhost
-      port: 5672
-      username: ${RABBITMQ_USERNAME}
-      password: ${RABBITMQ_PASSWORD}
   #MySQL DB configurations
    datasource:
       url: ${USER_MICROSERVICE_MYSQL_URL}
@@ -41,28 +35,21 @@ management:
                - health
                - metrics
                - prometheus
-
    metrics:
       tags:
          application: USER-SERVICE
 
-#AWS Configuration
-aws:
-   accessKey: ${AWS_ACCESS_KEY}
-   secretKey: ${AWS_SECRET_KEY}
-   region: ${AWS_REGION}
-   snsArn: ${AWS_SNS_ARN}
-
+custom:
+   security:
+      policies:
+         - path-expression: /user/api/v1/user/exists/**
+           service-names:
+              - follower-service
+         - path-expression: /user/api/v1/**
+           service-names:
+              - gateway-controller
+              
 security:
-   secret:
-      hash: ${HASH_SECRET}
-      jwt: ${JWT_SECRET_KEY}
    filters:
-      hash-check:
-         enabled: true
       gateway-auth:
          enabled: true
-  
-user:
-   service:
-      testEnvVariable: ${JAVA_HOME}
