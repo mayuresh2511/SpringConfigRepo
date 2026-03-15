@@ -22,6 +22,24 @@ spring:
               args:
                 preFilter: true
                 postFilter: false
+          - id: follower-service
+            uri: lb://FOLLOWER-SERVICE
+            predicates:
+              - Path=/follow/**
+            filters:
+            - name: Authorization
+              args:
+                preFilter: true
+                postFilter: false
+          - id: notification-service
+            uri: lb://NOTIFICATION-SERVICE
+            predicates:
+              - Path=/notification/**
+            filters:
+            - name: Authorization
+              args:
+                preFilter: true
+                postFilter: false
           globalcors:
             corsConfigurations:
               '[/**]':
@@ -32,7 +50,6 @@ spring:
                 - GET
                 - POST
         
-
 eureka:
   client:
     register-with-eureka: true
@@ -41,8 +58,3 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     hostname: localhost
-
-security:
-   secret:
-      hash: ${HASH_SECRET}
-      jwt: ${JWT_SECRET_KEY}

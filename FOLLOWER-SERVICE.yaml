@@ -1,0 +1,51 @@
+spring:
+  #MySQL DB configurations
+   datasource:
+      url: jdbc:mysql://localhost:3306/follower_microservice_db
+      username: ${MYSQL_USERNAME}
+      password: ${MYSQL_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+   jpa:
+      hibernate:
+         ddl-auto: update
+      properties:
+         hibernate:
+            dialect: org.hibernate.dialect.MySQLDialect
+
+#Eureka Configurations
+eureka:
+   client:
+      register-with-eureka: true
+      fetch-registry: true
+      serviceUrl:
+         defaultZone: ${EUREKA_DEFAULTZONE}
+   instance:
+      hostname: localhost
+
+#Actuator and prometheus configuration
+management:
+   endpoints:
+      prometheus:
+         enabled: true
+      web:
+         exposure:
+            include:
+               - info
+               - health
+               - metrics
+               - prometheus
+   metrics:
+      tags:
+         application: FOLLOWER-SERVICE
+
+custom:
+   security:
+      policies:
+         - path-expression: /follow/api/v1/**
+           service-names:
+              - gateway-controller
+              
+security:
+   filters:
+      gateway-auth:
+         enabled: true
