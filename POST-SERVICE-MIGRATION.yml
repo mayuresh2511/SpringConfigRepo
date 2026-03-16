@@ -43,12 +43,15 @@ aws:
       bucket-name: ${AWS_S3_BUCKET}
       enabled: true
 
+custom:
+   security:
+      policies:
+         - path-expression: /post/api/v1/**
+           service-names:
+              - gateway-controller
+
 security:
-   secret:
-      hash: ${HASH_SECRET}
    filters:
-      hash-check:
-         enabled: true
       gateway-auth:
          enabled: true
 
@@ -58,7 +61,3 @@ rate-limiter:
       enabled: false
    slidingWindowRedis:
       enabled: true
-
-user:
-   service:
-      testEnvVariable: ${JAVA_HOME}
