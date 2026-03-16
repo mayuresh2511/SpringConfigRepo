@@ -42,7 +42,7 @@ management:
 custom:
    security:
       policies:
-         - path-expression: /user/api/v1/user/exists/**
+         - path-expression: /user/api/v1/exists/**
            service-names:
               - follower-service
          - path-expression: /user/api/v1/**
