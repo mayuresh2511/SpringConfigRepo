@@ -41,6 +41,9 @@ management:
 custom:
    security:
       policies:
+         - path-expression: /follow/api/v1/followers/**
+           service-names:
+              - notification-service
          - path-expression: /follow/api/v1/**
            service-names:
               - gateway-controller
