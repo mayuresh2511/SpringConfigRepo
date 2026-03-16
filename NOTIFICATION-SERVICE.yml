@@ -1,0 +1,62 @@
+spring:
+  #MySQL DB configurations
+  datasource:
+    url: jdbc:mysql://localhost:3306/notification_microservice_db
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  #Kafka configurations
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: notification-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.microservices.notifier.dto"
+        spring.json.value.default.type: "com.microservices.notifier.dto.PostCreatedEvent"
+
+#Eureka Configurations
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_DEFAULTZONE}
+  instance:
+    hostname: localhost
+
+#Actuator and prometheus configuration
+management:
+  endpoints:
+    prometheus:
+      enabled: true
+    web:
+      exposure:
+        include:
+          - info
+          - health
+          - metrics
+          - prometheus
+  metrics:
+    tags:
+      application: NOTIFICATION-SERVICE
+
+custom:
+   security:
+      policies:
+         - path-expression: /notification/api/v1/**
+           service-names:
+              - gateway-controller
+
+security:
+  filters:
+    gateway-auth:
+      enabled: true
