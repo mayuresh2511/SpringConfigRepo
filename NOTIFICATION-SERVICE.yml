@@ -52,7 +52,7 @@ management:
 custom:
    security:
       policies:
-         - path-expression: /notification/api/v1/**
+         - path-expression: /notification/api/v1/notifications/**
            service-names:
               - gateway-controller
 
