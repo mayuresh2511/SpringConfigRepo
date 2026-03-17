@@ -18,7 +18,7 @@ spring:
 
    #Mongo DB configurations
   mongodb:
-    uri: ${MONGO_URI}
+    uri: ${MONGO_REVIEWS_SERVICE_DBURI}
 
 #Eureka Configurations
 eureka:
