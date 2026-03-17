@@ -40,6 +40,15 @@ spring:
               args:
                 preFilter: true
                 postFilter: false
+          - id: review-service
+            uri: lb://REVIEW-SERVICE
+            predicates:
+              - Path=/review/**
+            filters:
+            - name: Authorization
+              args:
+                preFilter: true
+                postFilter: false
           globalcors:
             corsConfigurations:
               '[/**]':
