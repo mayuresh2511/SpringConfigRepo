@@ -49,6 +49,9 @@ spring:
                 allowedMethods:
                 - GET
                 - POST
+                - PUT
+                - DELETE
+                - OPTIONS
         
 eureka:
   client:
