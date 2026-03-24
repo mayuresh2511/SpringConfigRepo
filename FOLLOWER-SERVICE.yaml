@@ -11,7 +11,19 @@ spring:
       properties:
          hibernate:
             dialect: org.hibernate.dialect.MySQLDialect
-
+   otlp:
+      metrics:
+         export:
+            url: http://localhost:4318/v1/metrics
+   opentelemetry:
+      tracing:
+         export:
+            otlp:
+               endpoint: http://localhost:4318/v1/traces
+      logging:
+         export:
+            otlp:
+               endpoint: http://localhost:4318/v1/logs
 #Eureka Configurations
 eureka:
    client:
@@ -27,9 +39,6 @@ management:
    tracing:
       sampling:
          probability: 1.0
-   zipkin:
-      tracing:
-         endpoint: http://localhost:9411/api/v2/spans
    endpoints:
       prometheus:
          enabled: true
